@@ -1,26 +1,20 @@
-import fs, {
-    writeFile,
-    access
-} from 'fs';
+import { writeFile } from 'fs';
+import path, { resolve } from 'path';
 
-const errorGenerator = (message) => {
-    throw new Error(message)
-}
+import errorGenerator from '../utils/errorGenerator.js';
+import checkIfFileOrFolderExist from '../utils/checkIfFileOrFolderExist.js';
 
 const create = async () => {
-    const path = './src/fs/files/fresh.txt';
+    const file = resolve(path.dirname(''), 'src', 'fs', 'files', 'fresh.txt');
     const innerText = 'I am fresh and young';
     const errorMessage = 'FS operation failed';
-
-    access(path, fs.F_OK, (err) => {
-        if (err) {
-            writeFile(path, innerText, (err) => {
+    if (await checkIfFileOrFolderExist(file)) {
+        errorGenerator(errorMessage);
+    } else {
+        writeFile(file, innerText, (err) => {
                 if (err) throw err;
             })
-        } else {
-            errorGenerator(errorMessage);
-        }
-    })
+    }
 };
 
 await create();
