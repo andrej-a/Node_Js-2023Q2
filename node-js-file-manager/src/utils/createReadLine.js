@@ -1,5 +1,6 @@
 import readline from 'readline';
 import { getOSInfo } from './getOSInfo.js';
+import { getFileAndDirectoryList } from './getFileAndDirectoryList.js';
 
 export const createReadLine = (readLineInterface, userName) => {
     const {output} = readLineInterface;
@@ -10,10 +11,12 @@ export const createReadLine = (readLineInterface, userName) => {
             case '.exit':
                 rl.close()
                 break;
+            case 'ls':
+                getFileAndDirectoryList()
+                break;
             case 'os':
                 getOSInfo(value.trim().split(' ')[1])
                 break;
-        
             default:
                 console.log(value.split(' ')[0]);
                 break;
