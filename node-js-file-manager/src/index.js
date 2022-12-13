@@ -1,5 +1,7 @@
 import { getUserName } from "./utils/getUserName.js";
 import { createReadLine } from "./utils/createReadLine.js";
+import { setHomeDirectory } from "./utils/setHomeDirectory.js";
+import { showCurrentDirectory } from './utils/showCurrentDirectory.js';
 import path, { resolve } from 'path';
 import fs from 'fs';
 
@@ -16,7 +18,8 @@ const fileManagerWorkingProcess = () => {
     }
 
     output.write(`Welcome to the File Manager, ${userName}!  \n`);
-
+    setHomeDirectory();
+    showCurrentDirectory();
     createReadLine({input, output}, userName);
 
 }
