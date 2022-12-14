@@ -6,6 +6,7 @@ import { showErrorMessage } from './showErrorMessage.js';
 import { goUp } from './goUp.js';
 import { calculateHash } from './calculateHash.js';
 import { compressFile } from './compressFile.js';
+import { decompressFile } from './decompress.js';
 import { divideCommandLine } from './divideCommandLine.js';
 import { checkPath } from './checkPath.js';
 
@@ -39,6 +40,14 @@ export const createReadLine = (readLineInterface, userName) => {
                 compressFile({
                     source,
                     destination,
+                })
+                break;
+            case 'decompress':
+                const d_source = checkPath(process.cwd(), divideCommandLine(value)[1])[0];
+                const d_destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1]; 
+                decompressFile({
+                    d_source,
+                    d_destination,
                 })
                 break;    
             default:

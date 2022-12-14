@@ -6,7 +6,6 @@ export const checkIfPathIsFile = (path) => {
         const stat = fs.lstatSync(path);
         return stat.isFile();
     } catch (e) {
-        showErrorMessage();
         return false;
     }
 }
