@@ -4,6 +4,8 @@ import { getFileAndDirectoryList } from './getFileAndDirectoryList.js';
 import { moveToDirectory } from './moveToDirectory.js';
 import { showErrorMessage } from './showErrorMessage.js';
 import { goUp } from './goUp.js';
+import { calculateHash } from './calculateHash.js';
+
 export const createReadLine = (readLineInterface, userName) => {
     const {output} = readLineInterface;
     const rl = readline.createInterface(readLineInterface);
@@ -24,6 +26,9 @@ export const createReadLine = (readLineInterface, userName) => {
                 break;
             case 'os':
                 getOSInfo(value.trim().split(' ')[1])
+                break;
+            case 'hash':
+                calculateHash(value.trim().split(' ')[1])
                 break;
             default:
                 showErrorMessage();
