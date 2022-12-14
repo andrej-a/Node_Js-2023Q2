@@ -5,13 +5,16 @@ import { moveToDirectory } from './moveToDirectory.js';
 import { showErrorMessage } from './showErrorMessage.js';
 import { goUp } from './goUp.js';
 import { calculateHash } from './calculateHash.js';
+import { compressFile } from './compressFile.js';
+import { divideCommandLine } from './divideCommandLine.js';
+import { checkPath } from './checkPath.js';
 
 export const createReadLine = (readLineInterface, userName) => {
     const {output} = readLineInterface;
     const rl = readline.createInterface(readLineInterface);
 
     rl.on('line', (value) => {
-        switch (value.trim().split(' ')[0]) {
+        switch (divideCommandLine(value)[0]) {
             case '.exit':
                 rl.close()
                 break;
@@ -19,7 +22,7 @@ export const createReadLine = (readLineInterface, userName) => {
                 goUp();
                 break;
             case 'cd':
-                moveToDirectory(value.trim().split(' ')[1]);
+                moveToDirectory(checkPath(process.cwd(), divideCommandLine(value)[1])[0]);
                 break;
             case 'ls':
                 getFileAndDirectoryList()
@@ -28,8 +31,16 @@ export const createReadLine = (readLineInterface, userName) => {
                 getOSInfo(value.trim().split(' ')[1])
                 break;
             case 'hash':
-                calculateHash(value.trim().split(' ')[1])
+                calculateHash(checkPath(process.cwd(), divideCommandLine(value)[1])[0])
                 break;
+            case 'compress':
+                const source = checkPath(process.cwd(), divideCommandLine(value)[1])[0];
+                const destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1]; 
+                compressFile({
+                    source,
+                    destination,
+                })
+                break;    
             default:
                 showErrorMessage();
                 break;

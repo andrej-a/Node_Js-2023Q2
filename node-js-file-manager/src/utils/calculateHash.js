@@ -13,10 +13,9 @@ export const calculateHash = async (pathToFile) => {
         showCurrentDirectory();
         return
     }
-    const copyPathToFile = resolve(pathToFile.split('').slice(2).join(''));
-    if (await checkIfFileOrFolderExist(copyPathToFile)) {
-        if (checkIfPathIsFile(copyPathToFile)) {
-            const fileBuffer = fs.readFileSync(copyPathToFile, (err) => {
+    if (await checkIfFileOrFolderExist(pathToFile)) {
+        if (checkIfPathIsFile(pathToFile)) {
+            const fileBuffer = fs.readFileSync(pathToFile, (err) => {
                 if (err) {
                     showErrorMessage();
                     showCurrentDirectory();
@@ -26,7 +25,7 @@ export const calculateHash = async (pathToFile) => {
             const hashSum = crypto.createHash('sha256');
             hashSum.update(fileBuffer);
             const hex = hashSum.digest('hex');
-            process.stdout.write(`Hash for this file is: ${hex}, \n`);
+            process.stdout.write(`Hash for this file is: ${hex} \n`);
             showCurrentDirectory();
             return;
         }

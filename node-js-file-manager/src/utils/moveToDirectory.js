@@ -6,11 +6,9 @@ import { checkIfPathIsDirectory } from "./checkIfPathIsDirectory.js";
 import { showWarningMessage } from "./showWarningMessage.js";
 
 export const moveToDirectory = async (pathToDirectory) => {
-    const copyPathToDirectory = pathToDirectory.split('').slice(2).join('');
-
-    if (await checkIfFileOrFolderExist(copyPathToDirectory)) {
-        if (checkIfPathIsDirectory(resolve(copyPathToDirectory))) {
-            process.chdir(resolve(copyPathToDirectory))
+    if (pathToDirectory && pathToDirectory !== process.cwd() && await checkIfFileOrFolderExist(`${pathToDirectory}`)) {
+        if (checkIfPathIsDirectory(pathToDirectory)) {
+            process.chdir(resolve(pathToDirectory))
             showCurrentDirectory();
             return;    
         }
