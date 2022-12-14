@@ -3,7 +3,7 @@ import { getOSInfo } from './getOSInfo.js';
 import { getFileAndDirectoryList } from './getFileAndDirectoryList.js';
 import { moveToDirectory } from './moveToDirectory.js';
 import { showErrorMessage } from './showErrorMessage.js';
-
+import { goUp } from './goUp.js';
 export const createReadLine = (readLineInterface, userName) => {
     const {output} = readLineInterface;
     const rl = readline.createInterface(readLineInterface);
@@ -12,6 +12,9 @@ export const createReadLine = (readLineInterface, userName) => {
         switch (value.trim().split(' ')[0]) {
             case '.exit':
                 rl.close()
+                break;
+            case 'up':
+                goUp();
                 break;
             case 'cd':
                 moveToDirectory(value.trim().split(' ')[1]);
