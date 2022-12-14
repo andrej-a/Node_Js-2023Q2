@@ -1,6 +1,8 @@
 import readline from 'readline';
 import { getOSInfo } from './getOSInfo.js';
 import { getFileAndDirectoryList } from './getFileAndDirectoryList.js';
+import { moveToDirectory } from './moveToDirectory.js';
+import { showErrorMessage } from './showErrorMessage.js';
 
 export const createReadLine = (readLineInterface, userName) => {
     const {output} = readLineInterface;
@@ -11,6 +13,9 @@ export const createReadLine = (readLineInterface, userName) => {
             case '.exit':
                 rl.close()
                 break;
+            case 'cd':
+                moveToDirectory(value.trim().split(' ')[1]);
+                break;
             case 'ls':
                 getFileAndDirectoryList()
                 break;
@@ -18,7 +23,7 @@ export const createReadLine = (readLineInterface, userName) => {
                 getOSInfo(value.trim().split(' ')[1])
                 break;
             default:
-                console.log(value.split(' ')[0]);
+                showErrorMessage();
                 break;
         }
     });

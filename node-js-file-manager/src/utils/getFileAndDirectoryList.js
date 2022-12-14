@@ -19,6 +19,10 @@ export const getFileAndDirectoryList = async () => {
     })
     .then(() => {
         const result = [...directoryList, ...fileList];
+        if (!result.length) {
+            process.stdout.write(`Directory is empty. \n`);
+            return;
+        }
         result.forEach((value, i) => {
             process.stdout.write(`Number ${i}: ${value} \n`);
         })
