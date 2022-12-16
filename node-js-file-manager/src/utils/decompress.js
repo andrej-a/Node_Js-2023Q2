@@ -46,7 +46,6 @@ export const decompressFile = async (sourceAndDestination) => {
         })
     
     } catch (err) {
-        console.log('HEREEEEEEEEEEEEEEEEEE');
         showErrorMessage();
         showCurrentDirectory();
     }
