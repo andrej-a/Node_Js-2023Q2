@@ -10,6 +10,7 @@ import { decompressFile } from './decompress.js';
 import { divideCommandLine } from './divideCommandLine.js';
 import { checkPath } from './checkPath.js';
 import { createFile } from './createFile.js';
+import { deleteFile } from './deleteFile.js';
 
 export const createReadLine = (readLineInterface, userName) => {
     const {output} = readLineInterface;
@@ -30,7 +31,10 @@ export const createReadLine = (readLineInterface, userName) => {
                 getFileAndDirectoryList()
                 break;
             case 'add':
-                createFile(value.trim().split(' ')[1])
+                createFile(checkPath(process.cwd(), divideCommandLine(value)[1])[1])
+                break;
+            case 'rm':
+                deleteFile(checkPath(process.cwd(), divideCommandLine(value)[1])[0])
                 break;    
             case 'os':
                 getOSInfo(value.trim().split(' ')[1])

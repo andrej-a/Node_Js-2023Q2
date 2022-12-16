@@ -5,9 +5,8 @@ import { showCurrentDirectory } from "./showCurrentDirectory.js";
 import { fstat } from "fs";
 import { showErrorMessage } from './showErrorMessage.js';
 
-export const createFile = (name) => {
-    const address = resolve(process.cwd(), `${name}`);
-    if (!name || !path.extname(`${address}`)) {
+export const createFile = (address) => {
+    if (!path.extname(`${address}`)) {
         showWarningMessage();
         showCurrentDirectory();
         return;
