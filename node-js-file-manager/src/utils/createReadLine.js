@@ -13,6 +13,7 @@ import { createFile } from './createFile.js';
 import { deleteFile } from './deleteFile.js';
 import { readFile } from './readFile.js';
 import { renameFile } from './renameFile.js';
+import { createFileCopy } from './createFileCopy.js';
 
 export const createReadLine = (readLineInterface, userName) => {
     const {output} = readLineInterface;
@@ -44,6 +45,14 @@ export const createReadLine = (readLineInterface, userName) => {
                 renameFile({
                     r_source,
                     r_destination
+                })
+                break;
+            case 'cp':
+                const c_source = checkPath(process.cwd(), divideCommandLine(value)[1])[0];
+                const c_destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1]; 
+                createFileCopy({
+                    c_source,
+                    c_destination
                 })
                 break;
             case 'rm':
