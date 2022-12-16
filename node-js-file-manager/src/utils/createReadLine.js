@@ -11,6 +11,7 @@ import { divideCommandLine } from './divideCommandLine.js';
 import { checkPath } from './checkPath.js';
 import { createFile } from './createFile.js';
 import { deleteFile } from './deleteFile.js';
+import { readFile } from './readFile.js';
 
 export const createReadLine = (readLineInterface, userName) => {
     const {output} = readLineInterface;
@@ -29,6 +30,9 @@ export const createReadLine = (readLineInterface, userName) => {
                 break;
             case 'ls':
                 getFileAndDirectoryList()
+                break;
+            case 'cat':
+                readFile(checkPath(process.cwd(), divideCommandLine(value)[1])[0])
                 break;
             case 'add':
                 createFile(checkPath(process.cwd(), divideCommandLine(value)[1])[1])
