@@ -11,7 +11,7 @@ export const compressFile = async (sourceAndDestination) => {
     const {source, destination} = sourceAndDestination;
 
     if (!(await checkIfFileOrFolderExist(`${source}`)) || !checkIfPathIsFile(source)) {
-        showWarningMessage();
+        showErrorMessage();
         showCurrentDirectory();
         return;
     }

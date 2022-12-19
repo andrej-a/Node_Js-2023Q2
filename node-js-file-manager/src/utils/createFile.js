@@ -6,13 +6,9 @@ import { showErrorMessage } from './showErrorMessage.js';
 import checkIfFileOrFolderExist from './checkIfFileOrFolderExist.js';
 
 export const createFile = async (address) => {
-    if (address === process.cwd()) {
-        showWarningMessage();
-        showCurrentDirectory();
-        return;
-    }
+    
     if (await checkIfFileOrFolderExist(address)) {
-        process.stdout.write(`"\x1b[31mOperation failed: file exists already \n\x1b[0m`);
+        showErrorMessage();
         showCurrentDirectory();
         return;
     }

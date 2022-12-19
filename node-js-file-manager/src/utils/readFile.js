@@ -3,10 +3,17 @@ import fs from 'fs';
 import { showCurrentDirectory } from './showCurrentDirectory.js';
 import { showErrorMessage } from './showErrorMessage.js';
 import { checkIfPathIsFile } from './checkIfPathIsFile.js';
+import { showWarningMessage } from './showWarningMessage.js';
+import checkIfFileOrFolderExist from './checkIfFileOrFolderExist.js';
 
-export const readFile = (pathToFile) => {
-    if (!pathToFile || !checkIfPathIsFile(pathToFile)) {
+export const readFile = async (pathToFile) => {
+    if (!(await checkIfFileOrFolderExist(pathToFile))) {
         showErrorMessage();
+        showCurrentDirectory();
+        return;
+    }
+    if (!pathToFile || !checkIfPathIsFile(pathToFile)) {
+        showWarningMessage();
         showCurrentDirectory();
         return;
     }

@@ -10,7 +10,7 @@ import { checkIfPathIsFile } from "./checkIfPathIsFile.js";
 export const decompressFile = async (sourceAndDestination) => {
     const {d_source, d_destination} = sourceAndDestination;
     if (!(await checkIfFileOrFolderExist(`${d_source}`)) || !checkIfPathIsFile(d_source)) {
-        showWarningMessage();
+        showErrorMessage();
         showCurrentDirectory();
         return;
     }
