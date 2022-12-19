@@ -16,7 +16,7 @@ export const compressFile = async (sourceAndDestination) => {
         return;
     }
 
-    if (source === destination) {
+    if (source === destination || path.extname(destination)) {
         showWarningMessage();
         showCurrentDirectory();
         return;
@@ -40,7 +40,7 @@ export const compressFile = async (sourceAndDestination) => {
     
         stream.on('finish', () => {
             process.stdout.write(
-                `Successfully compressed from ${resolve(source)} into ${resolve(destination, `${path.basename(source)}.br`)} \n`
+                `\x1b[32mSuccessfully compressed from ${resolve(source)} into ${resolve(destination, `${path.basename(source)}.br`)} \n\x1b[0m`
                 )
             showCurrentDirectory();
         })

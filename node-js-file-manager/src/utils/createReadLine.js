@@ -93,6 +93,6 @@ export const createReadLine = (readLineInterface, userName) => {
     });
     
     process.on('exit', function() {
-        output.write(`\n Thank you for using File Manager, ${userName}, goodbye! \n`);
+        output.write(`\x1b[35mThank you for using File Manager, ${userName}, goodbye! \n\x1b[0m`);
     });
 }

@@ -9,23 +9,21 @@ export const getFileAndDirectoryList = async () => {
     .then(async (files) => {
         for await (let file of files) {
             if (file.isFile()) {
-                fileList.push(`${file.name} is file`);
-                fileList = fileList.sort((a, b) => a > b ? 1 : -1);
+                fileList.push({name: file.name, type: 'file'});
             } else if (file.isDirectory()) {
-                directoryList.push(`${file.name} is directory`);
-                directoryList = directoryList.sort((a, b) => a > b ? 1 : -1);
+                directoryList.push({name: file.name, type: 'directory'});
             }
         }
     })
     .then(() => {
+        fileList = fileList.sort();
+        directoryList = directoryList.sort();
         const result = [...directoryList, ...fileList];
         if (!result.length) {
-            process.stdout.write(`Directory is empty. \n`);
+            process.stdout.write(`\x1b[32mDirectory is empty. \n\x1b[0m`);
             return;
         }
-        result.forEach((value, i) => {
-            process.stdout.write(`Number ${i}: ${value} \n`);
-        })
+        console.table(result);
     })
     .then(() => {
         showCurrentDirectory();

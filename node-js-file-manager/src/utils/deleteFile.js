@@ -2,9 +2,10 @@ import path from 'path';
 import fs from 'fs';
 import { showCurrentDirectory } from './showCurrentDirectory.js';
 import { showErrorMessage } from './showErrorMessage.js';
+import { checkIfPathIsFile } from './checkIfPathIsFile.js';
 
 export const deleteFile = (pathToFile) => {
-    if (!path.extname(`${pathToFile}`)) {
+    if (!checkIfPathIsFile(pathToFile)) {
         showErrorMessage();
         showCurrentDirectory();
         return;
@@ -16,7 +17,7 @@ export const deleteFile = (pathToFile) => {
             showCurrentDirectory();
             return;
         }
-        process.stdout.write(`Successfully deleted from ${pathToFile} \n`);
+        process.stdout.write(`\x1b[32mSuccessfully deleted from ${pathToFile} \n\x1b[0m`);
         showCurrentDirectory();
     })
 }

@@ -2,8 +2,6 @@ import { getUserName } from "./utils/getUserName.js";
 import { createReadLine } from "./utils/createReadLine.js";
 import { setHomeDirectory } from "./utils/setHomeDirectory.js";
 import { showCurrentDirectory } from './utils/showCurrentDirectory.js';
-import path, { resolve } from 'path';
-import fs from 'fs';
 
 const fileManagerWorkingProcess = () => {
     const {
@@ -12,12 +10,12 @@ const fileManagerWorkingProcess = () => {
     } = process;
     const userName = getUserName();
     
-    if (!userName) { //переписать на отдельную функцию
-        output.write('Invalid input! You must type your name before working \n');
+    if (!userName) {
+        output.write('\x1b[31mInvalid input! You must type your name before working \n\x1b[0m');
         return;
     }
 
-    output.write(`Welcome to the File Manager, ${userName}!  \n`);
+    output.write(`\x1b[32mWelcome to the File Manager, ${userName}!  \n\x1b[0m`);
     setHomeDirectory();
     showCurrentDirectory();
     createReadLine({input, output}, userName);

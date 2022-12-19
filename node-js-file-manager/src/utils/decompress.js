@@ -9,7 +9,6 @@ import { checkIfPathIsFile } from "./checkIfPathIsFile.js";
 
 export const decompressFile = async (sourceAndDestination) => {
     const {d_source, d_destination} = sourceAndDestination;
-    console.log(d_source, d_destination);
     if (!(await checkIfFileOrFolderExist(`${d_source}`)) || !checkIfPathIsFile(d_source)) {
         showWarningMessage();
         showCurrentDirectory();
@@ -40,7 +39,7 @@ export const decompressFile = async (sourceAndDestination) => {
     
         stream.on('finish', () => {
             process.stdout.write(
-                `Successfully decompressed from ${resolve(d_source)} into ${resolve(d_destination, `${path.basename(d_source, path.extname(d_source))}`)} \n`
+                `\x1b[32mSuccessfully decompressed from ${resolve(d_source)} into ${resolve(d_destination, `${path.basename(d_source, path.extname(d_source))}`)} \n\x1b[0m`
                 )
             showCurrentDirectory();
         })

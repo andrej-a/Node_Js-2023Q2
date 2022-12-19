@@ -25,7 +25,7 @@ export const calculateHash = async (pathToFile) => {
             const hashSum = crypto.createHash('sha256');
             hashSum.update(fileBuffer);
             const hex = hashSum.digest('hex');
-            process.stdout.write(`Hash for this file is: ${hex} \n`);
+            process.stdout.write(`\x1b[32mHash for this file is: ${hex} \n\x1b[0m`);
             showCurrentDirectory();
             return;
         }

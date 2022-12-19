@@ -26,7 +26,7 @@ export const readFile = (pathToFile) => {
     })
 
     stream.on('end', () => {
-        process.stdout.write(`Successfully read: ${pathToFile} \n`);
+        process.stdout.write(`\x1b[32mSuccessfully read: ${pathToFile} \n\x1b[0m`);
         showCurrentDirectory();
     })
 }

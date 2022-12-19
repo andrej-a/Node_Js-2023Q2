@@ -40,7 +40,7 @@ export const copyOrMoveFile = async ({ c_source, c_destination }, action = 'copy
             .then(() => {
                 if (action === 'copy') {
                     fileList.forEach((file) => {
-                        if (file.match(`${path.basename(c_source, path.extname(c_source))}`)) {
+                        if (file === `${path.basename(c_source)}` || file.includes(path.basename(c_source, path.extname(c_source)))) {
                             index += 1;
                         }
                     })
@@ -72,11 +72,11 @@ export const copyOrMoveFile = async ({ c_source, c_destination }, action = 'copy
 
         readStream.on('end', () => {
             if (action === 'copy') {
-                process.stdout.write(`Successfully copied from ${c_source} to ${c_destination} \n`);
+                process.stdout.write(`\x1b[32mSuccessfully copied from ${c_source} to ${resolve(c_destination, fileName)} \n\x1b[0m`);
                 showCurrentDirectory();
             } else {
                 deleteFile(c_source);
-                process.stdout.write(`Successfully moved from ${c_source} to ${c_destination} \n`);
+                process.stdout.write(`\x1b[32mSuccessfully moved from ${c_source} to ${resolve(c_destination, fileName)} \n\x1b[0m`);
             }
         })
 
