@@ -1,6 +1,7 @@
 import http from 'http';
 import { IUser } from '../models/models';
 import * as UsersInteraction from './interaction';
+import { objectValidator } from './objectValidator';
 
 const getUsers = async (request: http.IncomingMessage, responce: http.ServerResponse<http.IncomingMessage>) => {
     try {
@@ -13,11 +14,7 @@ const getUsers = async (request: http.IncomingMessage, responce: http.ServerResp
     }
 };
 
-const getUserByID = async (
-    request: http.IncomingMessage,
-    responce: http.ServerResponse<http.IncomingMessage>,
-    id: string
-) => {
+const getUserByID = async (responce: http.ServerResponse<http.IncomingMessage>, id: string) => {
     if (!id.match(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)) {
         responce.writeHead(400, { 'Content-Type': 'text/html' });
         responce.end(`<h1>Invalid ID</h1>`);
@@ -49,6 +46,12 @@ const addUser = async (request: http.IncomingMessage, responce: http.ServerRespo
         });
 
         request.on('end', async () => {
+            if (body.match(/'/g) || !body || !objectValidator(JSON.parse(body))) {
+                responce.writeHead(400, { 'Content-Type': 'text/html' });
+                responce.end(`<h1>Oooops! Incorrect fields!</h1>`);
+                return;
+            }
+
             const newUser = await UsersInteraction.createUser(JSON.parse(body));
             responce.writeHead(201, { 'Content-Type': 'application/json' });
             responce.end(JSON.stringify(newUser));
@@ -59,7 +62,11 @@ const addUser = async (request: http.IncomingMessage, responce: http.ServerRespo
     }
 };
 
-const updateUser = async (request: http.IncomingMessage, responce: http.ServerResponse<http.IncomingMessage>, id: string) => {
+const updateUser = async (
+    request: http.IncomingMessage,
+    responce: http.ServerResponse<http.IncomingMessage>,
+    id: string
+) => {
     if (!id.match(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)) {
         responce.writeHead(400, { 'Content-Type': 'text/html' });
         responce.end(`<h1>Invalid ID</h1>`);
@@ -80,19 +87,23 @@ const updateUser = async (request: http.IncomingMessage, responce: http.ServerRe
         });
 
         request.on('end', async () => {
+            if (body.match(/'/g) || !body) {
+                responce.writeHead(400, { 'Content-Type': 'text/html' });
+                responce.end(`<h1>Oooops! Incorrect fields!</h1>`);
+                return;
+            }
+
             const newUserState: IUser = JSON.parse(body);
-            const mergedUserState = {
+            const mergedUserState: IUser = {
                 id: currentUserState[0].id,
                 username: newUserState.username || currentUserState[0].username,
                 age: newUserState.age || currentUserState[0].age,
                 hobbies: newUserState.hobbies || currentUserState[0].hobbies,
-            }
+            };
             const updatedUser = await UsersInteraction.updateUserByID(mergedUserState);
             responce.writeHead(201, { 'Content-Type': 'application/json' });
             responce.end(JSON.stringify(updatedUser));
         });
-
-        
     } catch (error) {
         responce.writeHead(500, { 'Content-Type': 'text/html' });
         responce.end(`<h1>Oooops! Error: ${error}</h1>`);

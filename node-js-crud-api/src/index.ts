@@ -6,12 +6,12 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer((request, responce) => {
     if (request.url === '/api/users' && request.method === 'GET') {
         getUsers(request, responce);
-    } else if (request.url?.match(/\/api\/users\/([0-9]+)/) && request.method === 'GET') {
+    } else if (request.url?.match(/\/api\/users\/([0-9 A-Z]+)/i) && request.method === 'GET') {
         const id = request.url.split('/')[3];
-        getUserByID(request, responce, id);
+        getUserByID(responce, id);
     } else if (request.url === '/api/users' && request.method === 'POST') {
         addUser(request, responce)
-    } else if(request.url?.match(/\/api\/users\/([0-9]+)/) && request.method === 'PUT') {
+    } else if(request.url?.match(/\/api\/users\/([0-9 A-Z]+)/) && request.method === 'PUT') {
         const id = request.url.split('/')[3];
         updateUser(request, responce, id);
     } else {
