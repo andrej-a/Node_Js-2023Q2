@@ -1,0 +1,24 @@
+{
+  "name": "node-nodejs-file-manager",
+  "version": "1.0.0",
+  "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrej-a/Node_Js-2022Q4/tree/Node.js_File_Manager"
+  },
+  "keywords": [
+    "nodejs",
+    "assignments",
+    "andrej_a"
+  ],
+  "author": "amelyanovich_andrej",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrej-a/Node_Js-2022Q4/issues"
+  },
+  "homepage": "https://github.com/andrej-a/Node_Js-2022Q4"
+}
