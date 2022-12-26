@@ -14,7 +14,7 @@ const findUserById = (id: string): Promise<TUsers> => {
     })
 }
 
-const createUSer = (user: IUser) => {
+const createUser = (user: IUser): Promise<IUser> => {
     return new Promise((resolve, reject) => {
         const newUser = {id: uuidv4(), ...user};
         users.push(newUser);
@@ -22,8 +22,17 @@ const createUSer = (user: IUser) => {
     })
 }
 
+const updateUserByID = async (updatedUser: IUser): Promise<IUser> => {
+    return new Promise((resolve, reject) => {
+        const index = users.findIndex((u) => u.id === updatedUser.id);
+        users.splice(index, 1, updatedUser);
+        resolve(updatedUser);        
+    })
+}
+
 export {
     findAllUsers,
     findUserById,
-    createUSer,
+    createUser,
+    updateUserByID,
 }
