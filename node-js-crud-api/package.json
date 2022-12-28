@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
   "scripts": {
-    "start:dev": "nodemon ./src/index.ts"
+    "start:dev": "nodemon ./src/index.ts",
+    "start:prod": "webpack --mode production && node ./dist/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,14 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
+    "ts-loader": "^9.4.2",
     "uuid": "^9.0.0"
+  },
+  "browser": {
+    "http": false,
+    "https": false,
+    "os": false,
+    "path": false,
+    "fs": false
   }
 }

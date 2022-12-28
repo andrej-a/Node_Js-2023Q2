@@ -1,31 +1,21 @@
-import path from 'path';
-import { merge } from 'webpack-merge';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-
-const baseConfig = {
-  entry: path.resolve(__dirname, './src/index.ts'),
-  mode: 'development',
+const path = require('path');
+module.exports = {
+  entry: './src/index.ts',
   module: {
-    rules: [{
-      test: /\.ts?$/,
-      loader: 'ts-loader'
-    }]
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
   },
+  target: 'node',
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
   },
   output: {
-    filename: 'index.js',
-    path: path.resolve(__dirname, './dist')
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
   },
-  plugins: [
-    new CleanWebpackPlugin()
-  ]
-};
-
-export default ({ mode }) => {
-  const isProductionMode = mode === 'prod';
-  const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
-
-  return merge(baseConfig, envConfig);
 };
