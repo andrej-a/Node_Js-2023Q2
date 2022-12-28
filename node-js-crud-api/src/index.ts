@@ -1,6 +1,6 @@
 import http from 'http';
 import * as dotenv from 'dotenv';
-import { getUsers, getUserByID, addUser, updateUser } from './utils/controller';
+import { getUsers, getUserByID, addUser, updateUser, deleteUser } from './utils/controller';
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const server = http.createServer((request, responce) => {
@@ -14,6 +14,9 @@ const server = http.createServer((request, responce) => {
     } else if(request.url?.match(/\/api\/users\/([0-9 A-Z]+)/) && request.method === 'PUT') {
         const id = request.url.split('/')[3];
         updateUser(request, responce, id);
+    } else if (request.url?.match(/\/api\/users\/([0-9 A-Z]+)/i) && request.method === 'DELETE') {
+        const id = request.url.split('/')[3];
+        deleteUser(request, responce, id)
     } else {
         responce.writeHead(404, { 'Content-Type': 'text/html' });
         responce.end(`<h1>This adress ${request.url} is not exist</h1>`);

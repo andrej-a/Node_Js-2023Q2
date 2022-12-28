@@ -30,9 +30,18 @@ const updateUserByID = async (updatedUser: IUser): Promise<IUser> => {
     })
 }
 
+const deleteUserByID = async (id: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        const index = users.findIndex((u) => u.id === id);
+        users.splice(index, 1);
+        resolve();  
+    })
+}
+
 export {
     findAllUsers,
     findUserById,
     createUser,
     updateUserByID,
+    deleteUserByID
 }
