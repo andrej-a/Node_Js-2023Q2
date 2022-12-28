@@ -1,5 +1,7 @@
 import http from 'http';
 import { IUser } from '../models/models';
+import { checkCorrectJSON } from './checkCorrectJSON';
+import { checkCorrectUUID } from './checkCorrectUUID';
 import * as UsersInteraction from './interaction';
 import { objectValidator } from './objectValidator';
 
@@ -15,7 +17,7 @@ const getUsers = async (request: http.IncomingMessage, responce: http.ServerResp
 };
 
 const getUserByID = async (responce: http.ServerResponse<http.IncomingMessage>, id: string) => {
-    if (!id.match(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)) {
+    if (!checkCorrectUUID(id)) {
         responce.writeHead(400, { 'Content-Type': 'text/html' });
         responce.end(`<h1>Invalid ID</h1>`);
         return;
@@ -46,7 +48,13 @@ const addUser = async (request: http.IncomingMessage, responce: http.ServerRespo
         });
 
         request.on('end', async () => {
-            if (body.match(/'/g) || !body || !objectValidator(JSON.parse(body))) {
+            if (!checkCorrectJSON(body)) {
+                responce.writeHead(400, { 'Content-Type': 'text/html' });
+                responce.end(`<h1>JSON is incorrect</h1>`);
+                return;
+            }
+
+            if (!objectValidator(JSON.parse(body))) {
                 responce.writeHead(400, { 'Content-Type': 'text/html' });
                 responce.end(`<h1>Oooops! Incorrect fields!</h1>`);
                 return;
@@ -67,7 +75,7 @@ const updateUser = async (
     responce: http.ServerResponse<http.IncomingMessage>,
     id: string
 ) => {
-    if (!id.match(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)) {
+    if (!checkCorrectUUID(id)) {
         responce.writeHead(400, { 'Content-Type': 'text/html' });
         responce.end(`<h1>Invalid ID</h1>`);
         return;
@@ -87,18 +95,18 @@ const updateUser = async (
         });
 
         request.on('end', async () => {
-            if (body.match(/'/g) || !body) {
+            if (!checkCorrectJSON(body)) {
                 responce.writeHead(400, { 'Content-Type': 'text/html' });
-                responce.end(`<h1>Oooops! Incorrect fields!</h1>`);
+                responce.end(`<h1>JSON is incorrect</h1>`);
                 return;
             }
 
             const newUserState: IUser = JSON.parse(body);
             const mergedUserState: IUser = {
                 id: currentUserState[0].id,
-                username: newUserState.username || currentUserState[0].username,
-                age: newUserState.age || currentUserState[0].age,
-                hobbies: newUserState.hobbies || currentUserState[0].hobbies,
+                username: newUserState.username ? newUserState.username.toString() : currentUserState[0].username,
+                age: parseInt(newUserState.age.toString()) === Number(newUserState.age) ? newUserState.age : currentUserState[0].age,
+                hobbies: Array.isArray(newUserState.hobbies) ? newUserState.hobbies : currentUserState[0].hobbies,
             };
             const updatedUser = await UsersInteraction.updateUserByID(mergedUserState);
             responce.writeHead(201, { 'Content-Type': 'application/json' });
@@ -115,7 +123,7 @@ export const deleteUser = async (
     responce: http.ServerResponse<http.IncomingMessage>,
     id: string
 ) => {
-    if (!id.match(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)) {
+    if (!checkCorrectUUID(id)) {
         responce.writeHead(400, { 'Content-Type': 'text/html' });
         responce.end(`<h1>Invalid ID</h1>`);
         return;
