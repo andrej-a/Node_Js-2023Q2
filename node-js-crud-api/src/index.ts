@@ -4,7 +4,7 @@ import { getUsers, getUserByID, addUser, updateUser, deleteUser } from './utils/
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
-const server = http.createServer((request, responce) => {
+export const server = http.createServer((request, responce) => {
     if (request.url === '/api/users' && request.method === 'GET') {
         getUsers(responce);
     } else if (request.url?.match(/\/api\/users\/([0-9 A-Z]+)/i) && request.method === 'GET') {

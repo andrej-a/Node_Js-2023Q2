@@ -1,7 +1,7 @@
 import TUsers from './models/models';
 import { v4 as uuidv4 } from 'uuid';
 
-const users: TUsers = [
+const users: TUsers = [/* 
     {
         id: uuidv4(),
         username: 'User One',
@@ -20,7 +20,7 @@ const users: TUsers = [
         age: 19,
         hobbies: []
     },
-
+ */
 ];
 
 export default users;
