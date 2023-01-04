@@ -1,4 +1,5 @@
 import { IUser } from '../models/models';
+
 interface ISchema {
     username: (value: string) => boolean;
     age: (value: number) => boolean;

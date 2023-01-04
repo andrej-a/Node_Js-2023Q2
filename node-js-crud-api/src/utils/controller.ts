@@ -5,7 +5,7 @@ import { checkCorrectUUID } from './checkCorrectUUID';
 import * as UsersInteraction from './interaction';
 import { objectValidator } from './objectValidator';
 
-const getUsers = async (request: http.IncomingMessage, responce: http.ServerResponse<http.IncomingMessage>) => {
+const getUsers = async (responce: http.ServerResponse<http.IncomingMessage>) => {    
     try {
         const users = await UsersInteraction.findAllUsers();
         responce.writeHead(200, { 'Content-Type': 'application/json' });
@@ -60,7 +60,9 @@ const addUser = async (request: http.IncomingMessage, responce: http.ServerRespo
                 return;
             }
 
-            const newUser = await UsersInteraction.createUser(JSON.parse(body));
+            const {username, age, hobbies} = JSON.parse(body);
+
+            const newUser = await UsersInteraction.createUser({username, age, hobbies});
             responce.writeHead(201, { 'Content-Type': 'application/json' });
             responce.end(JSON.stringify(newUser));
         });
@@ -119,7 +121,6 @@ const updateUser = async (
 };
 
 export const deleteUser = async (
-    request: http.IncomingMessage,
     responce: http.ServerResponse<http.IncomingMessage>,
     id: string
 ) => {
