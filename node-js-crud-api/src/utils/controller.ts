@@ -111,7 +111,7 @@ const updateUser = async (
                 hobbies: Array.isArray(newUserState.hobbies) ? newUserState.hobbies : currentUserState[0].hobbies,
             };
             const updatedUser = await UsersInteraction.updateUserByID(mergedUserState);
-            responce.writeHead(201, { 'Content-Type': 'application/json' });
+            responce.writeHead(200, { 'Content-Type': 'application/json' });
             responce.end(JSON.stringify(updatedUser));
         });
     } catch (error) {
