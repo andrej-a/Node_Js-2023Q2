@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This repository is the part of nodejs-assignments https://github.com/AlreadyBored/nodejs-assignments",
   "scripts": {
+    "tets": "jest",
     "start:dev": "nodemon ./src/index.ts",
     "start:prod": "webpack --mode production && node ./dist/bundle.js"
   },
