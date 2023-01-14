@@ -1,7 +1,6 @@
 import request from 'supertest';
 import { server } from '../src/index';
 import { checkCorrectUUID } from '../src/utils/checkCorrectUUID';
-import { checkCorrectJSON } from '../src/utils/checkCorrectJSON';
 let current_user = {};
 let id = '';
 
@@ -14,7 +13,6 @@ describe('Testing simple CRUD API', function () {
         it('Should return 200 status code', async () => {
             const responce = await request(server).get('/api/users');
             expect(responce.statusCode).toBe(200);
-            
         });
         it('Should return 404 status code', async () => {
             const incorrect_address = '/api/incorrect_address';
