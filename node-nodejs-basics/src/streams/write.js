@@ -1,12 +1,12 @@
 import readline from 'readline';
-import path, { resolve } from 'path';
+import { resolve, dirname } from 'path';
 import fs from 'fs';
 const write = async () => {
-    const pathToWriteFile = resolve(path.dirname(''), 'src', 'streams', 'files', 'fileToWrite.txt');
+    const pathToWriteFile = resolve(dirname(''), 'src', 'streams', 'files', 'fileToWrite.txt');
     const {
         stdin: input,
         stdout: output
-    } = process;    
+    } = process;
     const rl = readline.createInterface({ input, output });
     const outputStream = fs.createWriteStream(pathToWriteFile);
 
@@ -16,11 +16,11 @@ const write = async () => {
         let string = value.toString();
         outputStream.write(`${string}\n`);
     });
-    
-    process.on('exit', function() {
+
+    process.on('exit', function () {
         output.write('\n Ok, it`s closed! \n');
     });
-    
+
 };
 
 await write();
