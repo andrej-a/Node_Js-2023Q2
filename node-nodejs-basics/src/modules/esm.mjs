@@ -9,7 +9,7 @@ import b_object from './files/b.json' assert {type: 'json'};
 const random = Math.random();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = resolve(path.dirname(''), 'src', 'modules');
-let unknownObject;
+let unknownObject = null;
 
 if (random > 0.5) {
     unknownObject = a_object;
