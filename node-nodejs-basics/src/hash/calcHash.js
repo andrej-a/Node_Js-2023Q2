@@ -1,17 +1,20 @@
-import crypto from 'crypto';
-import fs from 'fs';
-import path, { resolve } from 'path';
+import { createHash } from 'crypto';
+import { readFile } from 'fs';
+import { resolve, dirname } from 'path';
 
 const calculateHash = async () => {
-    const pathToHashForFile = resolve(path.dirname(''), 'src', 'hash', 'files', 'fileToCalculateHashFor.txt')
-    const fileBuffer = fs.readFileSync(pathToHashForFile, (err) => {
-        if (err) throw err;
+    const pathToHashForFile = resolve(dirname(''), 'src', 'hash', 'files', 'fileToCalculateHashFor.txt');
+    const content = await new Promise((resolve, reject) => {
+        readFile(pathToHashForFile, 'utf-8', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
     });
-    const hashSum = crypto.createHash('sha256');
-    hashSum.update(fileBuffer);
-    const hex = hashSum.digest('hex');
-    console.log(hex);
-
+    const hash = createHash('sha256').update(content).digest('hex');
+    console.log(hash);
 };
 
 await calculateHash();
