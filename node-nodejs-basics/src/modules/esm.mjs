@@ -3,8 +3,6 @@ import { fileURLToPath } from 'url';
 import { release, version } from 'os';
 import { createServer as createServerHttp } from 'http';
 import './files/c.js';
-import a_object from './files/a.json' assert {type: 'json'};
-import b_object from './files/b.json' assert {type: 'json'};
 
 const random = Math.random();
 const __filename = fileURLToPath(import.meta.url);
@@ -12,9 +10,9 @@ const __dirname = resolve(path.dirname(''), 'src', 'modules');
 let unknownObject = null;
 
 if (random > 0.5) {
-    unknownObject = a_object;
+    unknownObject = await import('./files/a.json', {assert: {type: 'json'}})
 } else {
-    unknownObject = b_object;
+    unknownObject = await import('./files/a.json', {assert: {type: 'json'}})
 }
 
 console.log(`Release ${release()}`);
