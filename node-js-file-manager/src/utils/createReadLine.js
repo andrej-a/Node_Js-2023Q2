@@ -2,7 +2,7 @@ import readline from 'readline';
 import { getOSInfo } from './getOSInfo.js';
 import { getFileAndDirectoryList } from './getFileAndDirectoryList.js';
 import { moveToDirectory } from './moveToDirectory.js';
-import { showErrorMessage } from './showErrorMessage.js';
+import { showWarningMessage } from './showWarningMessage.js';
 import { goUp } from './goUp.js';
 import { calculateHash } from './calculateHash.js';
 import { compressFile } from './compressFile.js';
@@ -14,15 +14,17 @@ import { deleteFile } from './deleteFile.js';
 import { readFile } from './readFile.js';
 import { renameFile } from './renameFile.js';
 import { copyOrMoveFile } from './createFileCopy.js';
+import constants from '../constants/constants.js';
 
+const { WARNING_MESSAGE } = constants;
 export const createReadLine = (readLineInterface, userName) => {
-    const {output} = readLineInterface;
+    const { output } = readLineInterface;
     const rl = readline.createInterface(readLineInterface);
 
     rl.on('line', (value) => {
         switch (divideCommandLine(value)[0]) {
             case '.exit':
-                rl.close()
+                rl.close();
                 break;
             case 'up':
                 goUp();
@@ -31,17 +33,17 @@ export const createReadLine = (readLineInterface, userName) => {
                 moveToDirectory(checkPath(process.cwd(), divideCommandLine(value)[1])[0]);
                 break;
             case 'ls':
-                getFileAndDirectoryList()
+                getFileAndDirectoryList();
                 break;
             case 'cat':
-                readFile(checkPath(process.cwd(), divideCommandLine(value)[1])[0])
+                readFile(checkPath(process.cwd(), divideCommandLine(value)[1])[0]);
                 break;
             case 'add':
-                createFile(checkPath(process.cwd(), divideCommandLine(value)[1])[1])
+                createFile(checkPath(process.cwd(), divideCommandLine(value)[1])[1]);
                 break;
             case 'rn':
                 const r_source = checkPath(process.cwd(), divideCommandLine(value)[1])[0];
-                const r_destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1]; 
+                const r_destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1];
                 renameFile({
                     r_source,
                     r_destination
@@ -49,7 +51,7 @@ export const createReadLine = (readLineInterface, userName) => {
                 break;
             case 'cp':
                 const c_source = checkPath(process.cwd(), divideCommandLine(value)[1])[0];
-                const c_destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1]; 
+                const c_destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1];
                 copyOrMoveFile({
                     c_source,
                     c_destination
@@ -60,10 +62,10 @@ export const createReadLine = (readLineInterface, userName) => {
                     c_source: checkPath(process.cwd(), divideCommandLine(value)[1])[0],
                     c_destination: checkPath(process.cwd(), divideCommandLine(value)[1])[1]
                 }, 'move')
-                    break;    
+                break;
             case 'rm':
                 deleteFile(checkPath(process.cwd(), divideCommandLine(value)[1])[0])
-                break;    
+                break;
             case 'os':
                 getOSInfo(value.trim().split(' ')[1])
                 break;
@@ -72,7 +74,7 @@ export const createReadLine = (readLineInterface, userName) => {
                 break;
             case 'compress':
                 const source = checkPath(process.cwd(), divideCommandLine(value)[1])[0];
-                const destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1]; 
+                const destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1];
                 compressFile({
                     source,
                     destination,
@@ -80,19 +82,19 @@ export const createReadLine = (readLineInterface, userName) => {
                 break;
             case 'decompress':
                 const d_source = checkPath(process.cwd(), divideCommandLine(value)[1])[0];
-                const d_destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1]; 
+                const d_destination = checkPath(process.cwd(), divideCommandLine(value)[1])[1];
                 decompressFile({
                     d_source,
                     d_destination,
                 })
-                break;    
+                break;
             default:
-                showErrorMessage();
+                showWarningMessage(WARNING_MESSAGE);
                 break;
         }
     });
-    
-    process.on('exit', function() {
+
+    process.on('exit', function () {
         output.write(`\x1b[35mThank you for using File Manager, ${userName}, goodbye! \n\x1b[0m`);
     });
 }

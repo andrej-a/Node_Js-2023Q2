@@ -1,26 +1,27 @@
-import path from 'path';
 import fs from 'fs';
 import { showCurrentDirectory } from './showCurrentDirectory.js';
-import { showErrorMessage } from './showErrorMessage.js';
-import { checkIfPathIsFile } from './checkIfPathIsFile.js';
 import { showWarningMessage } from './showWarningMessage.js';
+import { checkIfPathIsFile } from './checkIfPathIsFile.js';
 import checkIfFileOrFolderExist from './checkIfFileOrFolderExist.js';
+import constants from "../constants/constants.js";
+
+const { ERROR_MESSAGE, WARNING_MESSAGE } = constants;
 
 export const deleteFile = async (pathToFile) => {
     if (!(await checkIfFileOrFolderExist(pathToFile))) {
-        showErrorMessage();
+        showWarningMessage(WARNING_MESSAGE);
         showCurrentDirectory();
         return;
     }
     if (!checkIfPathIsFile(pathToFile)) {
-        showWarningMessage();
+        showWarningMessage(ERROR_MESSAGE);
         showCurrentDirectory();
         return;
     }
 
     fs.unlink(pathToFile, (err) => {
         if (err) {
-            showErrorMessage();
+            showWarningMessage(ERROR_MESSAGE);
             showCurrentDirectory();
             return;
         }

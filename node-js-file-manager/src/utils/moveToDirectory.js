@@ -1,9 +1,11 @@
 import { resolve } from "path";
 import { showCurrentDirectory } from "./showCurrentDirectory.js";
 import checkIfFileOrFolderExist from './checkIfFileOrFolderExist.js';
-import { showErrorMessage } from './showErrorMessage.js';
+import { showWarningMessage } from './showWarningMessage.js';
 import { checkIfPathIsDirectory } from "./checkIfPathIsDirectory.js";
-import { showWarningMessage } from "./showWarningMessage.js";
+import constants from "../constants/constants.js";
+
+const {WARNING_MESSAGE, ERROR_MESSAGE} = constants;
 
 export const moveToDirectory = async (pathToDirectory) => {
     if (pathToDirectory && pathToDirectory !== process.cwd() && await checkIfFileOrFolderExist(`${pathToDirectory}`)) {
@@ -12,11 +14,11 @@ export const moveToDirectory = async (pathToDirectory) => {
             showCurrentDirectory();
             return;    
         }
-        showWarningMessage();
+        showWarningMessage(WARNING_MESSAGE);
         showCurrentDirectory();
     } else {
-        showErrorMessage();
-        showCurrentDirectory();
+        showWarningMessage(WARNING_MESSAGE);
+        showCurrentDirectory(ERROR_MESSAGE);
     }
 
  }

@@ -1,6 +1,9 @@
 import os from 'os';
 import { showCurrentDirectory } from './showCurrentDirectory.js';
 import { showWarningMessage } from './showWarningMessage.js';
+import constants from '../constants/constants.js';
+
+const { WARNING_MESSAGE } = constants;
 
 export const getOSInfo = (searchingInformation) => {
     switch (searchingInformation) {
@@ -27,9 +30,9 @@ export const getOSInfo = (searchingInformation) => {
         case '--architecture':
             process.stdout.write(`\x1b[32m${os.arch()}-bit extended system \n\x1b[0m`);
             showCurrentDirectory();
-            break;    
+            break;
         default:
-            showWarningMessage();
+            showWarningMessage(WARNING_MESSAGE);
             showCurrentDirectory();
             break;
     }

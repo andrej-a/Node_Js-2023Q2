@@ -3,13 +3,16 @@ import path, { resolve } from 'path';
 import checkIfFileOrFolderExist from "./checkIfFileOrFolderExist.js";
 import { checkIfPathIsFile } from "./checkIfPathIsFile.js";
 import { showCurrentDirectory } from "./showCurrentDirectory.js";
-import { showErrorMessage } from "./showErrorMessage.js";
+import { showWarningMessage } from "./showWarningMessage.js";
 import { deleteFile } from './deleteFile.js';
+import constants from "../constants/constants.js";
+
+const { ERROR_MESSAGE, WARNING_MESSAGE } = constants;
 
 export const copyOrMoveFile = async ({ c_source, c_destination }, action = 'copy') => {
     try {
         if (!c_source || !checkIfPathIsFile(c_source) || c_source === c_destination) {
-            showErrorMessage();
+            showWarningMessage(WARNING_MESSAGE);
             showCurrentDirectory();
             return;
         }
@@ -17,7 +20,7 @@ export const copyOrMoveFile = async ({ c_source, c_destination }, action = 'copy
         if (!(await checkIfFileOrFolderExist(c_destination))) {
             fs.mkdir(c_destination, (err) => {
                 if (err) {
-                    showErrorMessage();
+                    showWarningMessage(ERROR_MESSAGE);
                     showCurrentDirectory();
                     return;
                 }
@@ -64,7 +67,7 @@ export const copyOrMoveFile = async ({ c_source, c_destination }, action = 'copy
 
         readStream.on('error', (err) => {
             if (err) {
-                showErrorMessage();
+                showWarningMessage(ERROR_MESSAGE);
                 showCurrentDirectory();
                 return;
             }
@@ -81,7 +84,7 @@ export const copyOrMoveFile = async ({ c_source, c_destination }, action = 'copy
         })
 
     } catch (error) {
-        showErrorMessage();
+        showWarningMessage(ERROR_MESSAGE);
         showCurrentDirectory();
     }
 }

@@ -1,15 +1,15 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import { resolve } from 'path';
 import { showWarningMessage } from "./showWarningMessage.js";
-import { showErrorMessage } from "./showErrorMessage.js";
 import { showCurrentDirectory } from "./showCurrentDirectory.js";
 import checkIfFileOrFolderExist from './checkIfFileOrFolderExist.js';
 import { checkIfPathIsFile } from './checkIfPathIsFile.js';
+import constants from '../constants/constants.js';
 
+const { WARNING_MESSAGE, ERROR_MESSAGE } = constants;
 export const calculateHash = async (pathToFile) => {
     if (!pathToFile) {
-        showWarningMessage();
+        showWarningMessage(WARNING_MESSAGE);
         showCurrentDirectory();
         return
     }
@@ -17,7 +17,7 @@ export const calculateHash = async (pathToFile) => {
         if (checkIfPathIsFile(pathToFile)) {
             const fileBuffer = fs.readFileSync(pathToFile, (err) => {
                 if (err) {
-                    showErrorMessage();
+                    showWarningMessage(ERROR_MESSAGE);
                     showCurrentDirectory();
                     return
                 };
@@ -29,10 +29,10 @@ export const calculateHash = async (pathToFile) => {
             showCurrentDirectory();
             return;
         }
-        showWarningMessage();
+        showWarningMessage(WARNING_MESSAGE);
         showCurrentDirectory();
     } else {
-        showErrorMessage();
+        showWarningMessage(ERROR_MESSAGE);
         showCurrentDirectory();
     }
 }
