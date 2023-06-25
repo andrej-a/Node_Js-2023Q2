@@ -14,8 +14,8 @@ export const getOSInfo = (searchingInformation) => {
         case '--cpus':
             const totalLogicalCores = os.cpus().length;
             process.stdout.write(`\x1b[32mTotal logical cores: ${totalLogicalCores} \n\x1b[0m`);
-            os.cpus().forEach((core, i) => {
-                process.stdout.write(`\x1b[32mCore number ${i + 1} is: ${core.model} \n\x1b[0m`);
+            os.cpus().forEach(({ model, speed }, i) => {
+                process.stdout.write(`\x1b[32mCore number ${i + 1} is: ${model}, clock rate (GHz) is ${(speed / 1000).toFixed(2)} \n\x1b[0m`);
             })
             showCurrentDirectory();
             break;
