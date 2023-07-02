@@ -1,6 +1,6 @@
 # Siimple CRUD API, instruction
 
-Hi! This is a simple step by step instruction to **CRUD API** task for Node.js 2022Q4 course.
+Hi! This is a simple step by step instruction to **CRUD API** task for Node.js 2023Q2 course.
 
 Let's start.
 
