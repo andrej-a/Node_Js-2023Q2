@@ -1,13 +1,13 @@
-import fs from 'fs';
+import { createReadStream, createWriteStream } from 'fs';
 import zlib from 'zlib';
-import path, { resolve } from 'path';
+import { resolve, dirname } from 'path';
 
 const compress = async () => {
-    const pathToCompressFile = resolve(path.dirname(''), 'src', 'zip', 'files', 'fileToCompress.txt');
-    const pathToCompressedFile = resolve(path.dirname(''), 'src', 'zip', 'files', 'archive.gz');
+    const pathToCompressFile = resolve(dirname(''), 'src', 'zip', 'files', 'fileToCompress.txt');
+    const pathToCompressedFile = resolve(dirname(''), 'src', 'zip', 'files', 'archive.gz');
     const gzip = zlib.createGzip();
-    const rstream = fs.createReadStream(pathToCompressFile);
-    const wstream = fs.createWriteStream(pathToCompressedFile);
+    const rstream = createReadStream(pathToCompressFile);
+    const wstream = createWriteStream(pathToCompressedFile);
 
     rstream.pipe(gzip).pipe(wstream).on('finish', () => {
         console.log('FINISHED!');

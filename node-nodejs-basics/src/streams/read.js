@@ -1,8 +1,9 @@
-import fs from 'fs';
+import { ReadStream } from 'fs';
 import path, { resolve } from 'path';
+
 const read = async () => {
     const pathToReadFile = resolve(path.dirname(''), 'src', 'streams', 'files', 'fileToRead.txt');
-    const rstream = fs.ReadStream(pathToReadFile, {encoding: 'utf-8'});
+    const rstream = ReadStream(pathToReadFile, { encoding: 'utf-8' });
 
     rstream.on('error', (err) => {
         if (err) throw err;

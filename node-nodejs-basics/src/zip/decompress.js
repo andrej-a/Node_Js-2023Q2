@@ -1,13 +1,13 @@
-import fs from 'fs';
-import zlib from 'zlib';
-import path, { resolve } from 'path';
+import { createReadStream, createWriteStream } from 'fs';
+import { createGunzip } from 'zlib';
+import { resolve, dirname } from 'path';
 
 const decompress = async () => {
-    const pathToCompressFile = resolve(path.dirname(''), 'src', 'zip', 'files', 'fileToCompress.txt');
-    const pathToCompressedFile = resolve(path.dirname(''), 'src', 'zip', 'files', 'archive.gz');
-    const gunzip = zlib.createGunzip();
-    const rstream = fs.createReadStream(pathToCompressedFile);
-    const wstream = fs.createWriteStream(pathToCompressFile);
+    const pathToCompressFile = resolve(dirname(''), 'src', 'zip', 'files', 'fileToCompress.txt');
+    const pathToCompressedFile = resolve(dirname(''), 'src', 'zip', 'files', 'archive.gz');
+    const gunzip = createGunzip();
+    const rstream = createReadStream(pathToCompressedFile);
+    const wstream = createWriteStream(pathToCompressFile);
 
     rstream.pipe(gunzip).pipe(wstream).on('finish', () => {
         console.log('FINISHED!');
