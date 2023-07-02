@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { showErrorMessage } from './showErrorMessage.js';
+import { showWarningMessage } from './showWarningMessage.js';
 
 export const checkIfPathIsFile = (path) => {
     try {

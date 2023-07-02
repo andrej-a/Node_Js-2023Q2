@@ -1,12 +1,12 @@
 import fs from 'fs';
-import { showErrorMessage } from './showErrorMessage.js';
+import { showWarningMessage } from './showWarningMessage.js';
 
 export const checkIfPathIsDirectory = (path) => {
     try {
         const stat = fs.lstatSync(path);
         return stat.isDirectory();
     } catch (e) {
-        showErrorMessage();
+        showWarningMessage();
         return false;
     }
 }

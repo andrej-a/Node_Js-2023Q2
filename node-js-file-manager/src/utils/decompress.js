@@ -4,19 +4,20 @@ import zlib from 'zlib';
 import checkIfFileOrFolderExist from "./checkIfFileOrFolderExist.js";
 import { showWarningMessage } from "./showWarningMessage.js";
 import { showCurrentDirectory } from "./showCurrentDirectory.js";
-import { showErrorMessage } from "./showErrorMessage.js";
 import { checkIfPathIsFile } from "./checkIfPathIsFile.js";
+import constants from "../constants/constants.js";
 
-export const decompressFile = async (sourceAndDestination) => {
-    const {d_source, d_destination} = sourceAndDestination;
+const { ERROR_MESSAGE, WARNING_MESSAGE } = constants;
+
+export const decompressFile = async ({d_source, d_destination}) => {
     if (!(await checkIfFileOrFolderExist(`${d_source}`)) || !checkIfPathIsFile(d_source)) {
-        showErrorMessage();
+        showWarningMessage(WARNING_MESSAGE);
         showCurrentDirectory();
         return;
     }
 
     if (d_source === d_destination || checkIfPathIsFile(d_destination) || path.extname(d_source) !== '.br') {
-        showWarningMessage();
+        showWarningMessage(ERROR_MESSAGE);
         showCurrentDirectory();
         return;
     }
@@ -24,7 +25,7 @@ export const decompressFile = async (sourceAndDestination) => {
     if (!(await checkIfFileOrFolderExist(d_destination))) {
         fs.mkdir(d_destination, (err) => {
             if (err) {
-                showErrorMessage();
+                showWarningMessage(ERROR_MESSAGE);
                 showCurrentDirectory();
                 return;
             }
@@ -45,7 +46,7 @@ export const decompressFile = async (sourceAndDestination) => {
         })
     
     } catch (err) {
-        showErrorMessage();
+        showWarningMessage(ERROR_MESSAGE);
         showCurrentDirectory();
     }
 

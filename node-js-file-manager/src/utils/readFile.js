@@ -1,19 +1,21 @@
 import path from 'path';
 import fs from 'fs';
 import { showCurrentDirectory } from './showCurrentDirectory.js';
-import { showErrorMessage } from './showErrorMessage.js';
-import { checkIfPathIsFile } from './checkIfPathIsFile.js';
 import { showWarningMessage } from './showWarningMessage.js';
+import { checkIfPathIsFile } from './checkIfPathIsFile.js';
 import checkIfFileOrFolderExist from './checkIfFileOrFolderExist.js';
+import constants from "../constants/constants.js";
+
+const {WARNING_MESSAGE, ERROR_MESSAGE} = constants;
 
 export const readFile = async (pathToFile) => {
     if (!(await checkIfFileOrFolderExist(pathToFile))) {
-        showErrorMessage();
+        showWarningMessage(ERROR_MESSAGE);
         showCurrentDirectory();
         return;
     }
     if (!pathToFile || !checkIfPathIsFile(pathToFile)) {
-        showWarningMessage();
+        showWarningMessage(WARNING_MESSAGE);
         showCurrentDirectory();
         return;
     }
@@ -26,7 +28,7 @@ export const readFile = async (pathToFile) => {
 
     stream.on('error', (err) => {
         if (err) {
-            showErrorMessage();
+            showWarningMessage(ERROR_MESSAGE);
             showCurrentDirectory();
             return;
         }
